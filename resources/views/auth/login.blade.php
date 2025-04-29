@@ -1,53 +1,80 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <body class="max-h-screen">
-    </a>
     <section
         style="background-image: url('{{ asset('assets/img/piclogin.svg') }}'); 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;"
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;"
         class="min-h-screen flex items-center justify-center">
+        
+        <!-- Form Login -->
         <div class="bg-white bg-opacity-50 p-5 flex rounded-2xl shadow-lg max-w-3xl">
             <div class="md:w-1/2 px-5">
                 <h2 class="text-2xl font-bold text-[#002D74]">Login</h2>
                 <p class="text-sm mt-4 text-[#002D74]">If you have an account, please login</p>
-                <form class="mt-6" action="#" method="POST">
+                
+                <!-- Form Login -->
+                <form class="mt-6" action="{{ route('login.submit') }}" method="POST">
+                    @csrf
+                    
+                    <!-- Error Messages -->
+                    @if($errors->any())
+                        <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    
+                    <!-- Email Input -->
                     <div>
                         <label class="block text-gray-700">Email Address</label>
-                        <input type="email" name="" id="" placeholder="Enter Email Address"
+                        <input type="email" name="email" placeholder="Enter Email Address"
                             class="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-                            autofocus autocomplete required>
+                            value="{{ old('email') }}" autofocus autocomplete="email" required>
                     </div>
 
+                    <!-- Password Input -->
                     <div class="mt-4">
                         <label class="block text-gray-700">Password</label>
-                        <input type="password" name="" id="" placeholder="Enter Password" minlength="6"
+                        <input type="password" name="password" placeholder="Enter Password" minlength="6"
                             class="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500
-                    focus:bg-white focus:outline-none"
-                            required>
+                            focus:bg-white focus:outline-none"
+                            autocomplete="current-password" required>
                     </div>
 
-                    <div class="text-right mt-2">
-                        <a href="#"
-                            class="text-sm font-semibold text-gray-700 hover:text-blue-700 focus:text-blue-700">Forgot
-                            Password?</a>
+                    <!-- Remember Me & Forgot Password -->
+                    <div class="flex justify-between items-center mt-2">
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" name="remember" class="form-checkbox h-4 w-4 text-blue-600">
+                            <span class="ml-2 text-sm text-gray-700">Remember me</span>
+                        </label>
+                        
+                        <a href="{{ route('password.request') }}"
+                            class="text-sm font-semibold text-gray-700 hover:text-blue-700 focus:text-blue-700">Forgot Password?</a>
                     </div>
 
+                    <!-- Submit Button -->
                     <button type="submit"
                         class="w-full block bg-blue-500 hover:bg-blue-400 focus:bg-blue-400 text-white font-semibold rounded-lg
-                  px-4 py-3 mt-6">Log
-                        In</button>
+                        px-4 py-3 mt-6 transition duration-300">
+                        Log In
+                    </button>
                 </form>
 
+                <!-- Divider -->
                 <div class="mt-7 grid grid-cols-3 items-center text-gray-500">
-                    <hr class="border-gray-500" />
+                    <hr class="border-gray-500">
                     <p class="text-center text-sm">OR</p>
-                    <hr class="border-gray-500" />
+                    <hr class="border-gray-500">
                 </div>
 
+                <!-- Google Login Button (Non-functional) -->
                 <button
-                    class="bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300 ">
+                    class="bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300 cursor-not-allowed opacity-50">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="w-6 h-6"
                         viewBox="0 0 48 48">
                         <defs>
@@ -62,20 +89,23 @@
                         <path clip-path="url(#b)" fill="#34A853" d="M0 37l30-23 7.9 1L48 0v48H0z" />
                         <path clip-path="url(#b)" fill="#4285F4" d="M48 48L17 24l-4-3 35-10z" />
                     </svg>
-                    <span class = "ml-4">Login with Google</span>
+                    <span class="ml-4">Login with Google</span>
                 </button>
 
+                <!-- Register Link -->
                 <div class="text-sm flex justify-between items-center mt-3">
                     <p>If you don't have an account...</p>
-                    <button
-                        class="py-2 px-5 ml-3 bg-white border rounded-xl hover:scale-110 duration-300 border-blue-400  ">Register</button>
+                    <a href="{{ route('register') }}"
+                        class="py-2 px-5 ml-3 bg-white border rounded-xl hover:scale-110 duration-300 border-blue-400 transition">
+                        Register
+                    </a>
                 </div>
             </div>
 
-            <div class="w-1/2 md:block hidden ">
-                <img src="{{ asset('assets/img/login.jpg') }}" class="rounded-2xl" alt="page img">
+            <!-- Right Side Image -->
+            <div class="w-1/2 md:block hidden">
+                <img src="{{ asset('assets/img/login.jpg') }}" class="rounded-2xl" alt="Login illustration">
             </div>
-
         </div>
     </section>
 </body>
